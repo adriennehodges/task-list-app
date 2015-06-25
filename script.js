@@ -25,7 +25,7 @@ jQuery(document).ready(function ($) {
           taskStore = {};
           localStorage.setItem('taskList', JSON.stringify(taskStore));
       }
-      self.updateTasks();
+    self.updateTasks();
   };
 
   TaskList.prototype.setObservers = function () {
@@ -37,6 +37,11 @@ jQuery(document).ready(function ($) {
       var element = $(event.currentTarget).parent(),
           id = element.attr('id');
       self.deleteTask(id);
+    });
+    $('ul').on('click', '.complete', function(event) {
+      var element = $(event.currentTarget).parent(),
+          id = element.attr('id');
+      self.completeTask(id);
     });
   };
 
@@ -58,7 +63,6 @@ jQuery(document).ready(function ($) {
     console.log(JSON.parse(localStorage.getItem('taskList')));
 
     self.updateTasks();
-    
   };
 
   TaskList.prototype.deleteTask = function (id) {
@@ -68,7 +72,14 @@ jQuery(document).ready(function ($) {
     $('#' + id).remove();
     delete taskStore[id];
     localStorage.setItem('taskList', JSON.stringify(taskStore));
+  };
 
+  TaskList.prototype.completeTask = function (id) {
+    var self = this,
+        taskStore = JSON.parse(localStorage.getItem('taskList'));
+    //update task status to 1 ?
+    //and change class to '.done'
+    localStorage.setItem('taskList', JSON.stringify(taskStore));
   };
 
   TaskList.prototype.updateTasks = function () {
@@ -128,3 +139,4 @@ TaskList.prototype.delegateDelete = function(event) {
   something like $('#' + id).find('.delete').on('click', function ...
 
 */
+
