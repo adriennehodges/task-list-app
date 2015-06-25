@@ -33,8 +33,10 @@ jQuery(document).ready(function ($) {
     $('#addTaskButton').on('click', function () {
       self.addTask();
     });
-    $('#delete').on('click', function () {
-      self.deleteTask();
+    $('.delete').on('click', function (event) {
+      var element = $(event.currentTarget).parent();
+      var id = element.attr('id');
+      self.deleteTask(id);
     });
   };
 
@@ -58,29 +60,13 @@ jQuery(document).ready(function ($) {
     
   };
 
-  TaskList.prototype.deleteTask = function () {
+  TaskList.prototype.deleteTask = function (id) {
     var self = this,
-        id = TaskList.settings.taskId,
         taskStore = JSON.parse(localStorage.getItem('taskList'));
 
-    $('#' + id).remove();    
+    $('#' + id).remove();
     delete taskStore[id];
-
-    //$('#' + task).remove(); //ONLY REMOVES LAST LI OF UL AND ONLY IF YOU CLICK THE DELETE BUTTON OF THE FIRST LI
-    //localStorage.removeItem('task', JSON.stringify(self.settings.taskList));
-    //localStorage.setItem('taskList', JSON.stringify(self.settings.taskList));
-    //self.updateTasks();
-
-    /*deleteSelectedTask: function() {
-            var data = JSON.parse(localStorage.getItem('task-list')),
-                id = selectedTask.settings.id,
-
-            $('#' + id).remove();
-            delete data[id];
-            localStorage.setItem('task-list', JSON.stringify(data));
-            self.resetSelectedTaskDisplay();
-        },*/
-    
+    localStorage.setItem('taskList', JSON.stringify(taskStore));
   };
 
   TaskList.prototype.updateTasks = function () {
@@ -95,7 +81,7 @@ jQuery(document).ready(function ($) {
       }
 
       if (taskInfo.taskName !== "") {
-        html += "<li contenteditable='true' id='" + task + "'>" + taskInfo.taskName + "<button id='delete' contenteditable='false' class='delete'>x</button><button id='complete' contenteditable='false' class='complete'>DONE</button></li>";
+        html += "<li contenteditable='true' id='" + task + "'>" + taskInfo.taskName + "<button contenteditable='false' class='delete'>x</button><button id='complete' contenteditable='false' class='complete'>DONE</button></li>";
       }
 
     }  
@@ -115,13 +101,3 @@ jQuery(document).ready(function ($) {
     //or think of better way to do this
     //localStorage.setItem('taskListData', JSON.stringify(taskList));
   };
-
-  TaskList.prototype.deleteTask = function () {
-    $(this).parent().remove();
-    //remove the item from the array by using id
-    //localStorage.removeItem('name');
-    //localStorage.setItem('taskListData', JSON.stringify(taskList));
-  };
-    
-  $(document).on('click', '.delete', task.deleteTask);
-  $(document).on('click', '.complete', task.completeTask);*/
