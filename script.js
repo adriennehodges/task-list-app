@@ -9,7 +9,6 @@ jQuery(document).ready(function ($) {
   TaskList.prototype.init = function(options) {
     this.settings = {
         'debug': false,
-        'id': Date.now(),
         taskList: {}
     };
 
@@ -18,24 +17,34 @@ jQuery(document).ready(function ($) {
   };
 
   TaskList.prototype.initializeTasks = function () {
-    var self = this;
+    var self = this,
+        taskStore = JSON.parse(localStorage.getItem('taskList'));
       if (localStorage.taskList !== undefined) {
-          self.settings.taskList = JSON.parse(localStorage.getItem('taskList'));
+          taskStore = JSON.parse(localStorage.getItem('taskList'));
       } else {
-          self.settings.taskList = {};
-          localStorage.setItem('taskList', JSON.stringify(self.settings.taskList));
+          taskStore = {};
+          localStorage.setItem('taskList', JSON.stringify(taskStore));
       }
       self.updateTasks();
   };
+
+  /*TaskList.prototype.delegateDelete = function(event) {
+      var element = $(event.currentTarget).parent(),
+          id = element.attr('id');
+      this.deleteTask(id);
+  };*/
+  //this is to make sure the delete event is bound to the dynamically
+  //created DOM elements that are created after the DOM has loaded
+  //and the setObservers() function has already been called
 
   TaskList.prototype.setObservers = function () {
     var self = this;
     $('#addTaskButton').on('click', function () {
       self.addTask();
     });
-    $('.delete').on('click', function (event) {
-      var element = $(event.currentTarget).parent();
-      var id = element.attr('id');
+    $('ul').on('click', '.delete', function(event) {
+      var element = $(event.currentTarget).parent(),
+          id = element.attr('id');
       self.deleteTask(id);
     });
   };
@@ -45,15 +54,16 @@ jQuery(document).ready(function ($) {
         taskId = Date.now(),
         taskName = $('#addTaskBox').val(),
         status = 0,
-        taskObject = {};
+        taskObject = {},
+        taskStore = JSON.parse(localStorage.getItem('taskList'));
 
     taskObject[taskId] = {
       'taskName' : taskName,
       'status' : status
     };
 
-    $.extend(this.settings.taskList, taskObject);
-    localStorage.setItem('taskList', JSON.stringify(self.settings.taskList));
+    $.extend(taskStore, taskObject);
+    localStorage.setItem('taskList', JSON.stringify(taskStore));
     console.log(JSON.parse(localStorage.getItem('taskList')));
 
     self.updateTasks();
@@ -67,13 +77,15 @@ jQuery(document).ready(function ($) {
     $('#' + id).remove();
     delete taskStore[id];
     localStorage.setItem('taskList', JSON.stringify(taskStore));
+
   };
 
   TaskList.prototype.updateTasks = function () {
     var self = this,
-        html = '';
-    for (task in self.settings.taskList) {
-      var taskInfo = self.settings.taskList[task],
+        html = '',
+        taskStore = JSON.parse(localStorage.getItem('taskList'));
+    for (task in taskStore) {
+      var taskInfo = taskStore[task],
           taskStatus = '';
       
       if (taskInfo.status === 1) {
@@ -81,15 +93,46 @@ jQuery(document).ready(function ($) {
       }
 
       if (taskInfo.taskName !== "") {
-        html += "<li contenteditable='true' id='" + task + "'>" + taskInfo.taskName + "<button contenteditable='false' class='delete'>x</button><button id='complete' contenteditable='false' class='complete'>DONE</button></li>";
+        html += "<li contenteditable='true' id='" + task + "'>" + taskInfo.taskName + "<button contenteditable='false' class='delete'>x</button><button contenteditable='false' class='complete'>DONE</button></li>";
       }
 
     }  
-      $('#taskList').html(html);
-      $('#addTaskBox').val('');
+    $('#taskList').html(html);
+    $('#addTaskBox').val('');
   };
-      var task = new TaskList({"debug":false});
+    
+    var task = new TaskList({"debug":false});
+
 });
+
+/*
+
+/*TaskList.prototype.delegateDelete = function(event) {
+      var element = $(event.currentTarget).parent(),
+          id = element.attr('id');
+      this.deleteTask(id);
+  }*/
+
+  /*TaskList.prototype.setObservers = function () {
+    var self = this;
+    $('#addTaskButton').on('click', function () {
+      self.addTask();
+    });
+    $('ul').on('click', '.delete', function(event) {
+      var self = this,
+          element = $(event.currentTarget).parent(),
+          id = element.attr('id');
+      self.deleteTask(id);
+    });
+  };*/
+/*
+So
+When you are adding the item to the DOM
+You're going to get a brand new item
+And it won't have the delete event handler attached to the delete button
+So, something you could do is use jQuery to select the newly added delete button, something like $('#' + id).find('.delete').on('click', function ...
+Does that make sense?
+You add your observers for events on the page load, but when you add a new item to the DOM you need to add the event observer to that new DOM item*/
 
 /*TaskList.prototype.completeTask = function () {
     if ($(this).parent().hasClass('done')) {
@@ -100,4 +143,23 @@ jQuery(document).ready(function ($) {
     //change the class of the object and update the information stored in the array
     //or think of better way to do this
     //localStorage.setItem('taskListData', JSON.stringify(taskList));
-  };
+  };*/
+
+/*So
+When you are adding the item to the DOM
+You're going to get a brand new item
+And it won't have the delete event handler attached to the delete button
+So, something you could do is use jQuery to select the newly added delete button, something like $('#' + id).find('.delete').on('click', function ...
+Does that make sense?
+You add your observers for events on the page load, but when you add a new item to the DOM you need to add the event observer to that new DOM item*/
+
+/*TaskList.prototype.completeTask = function () {
+    if ($(this).parent().hasClass('done')) {
+      $(this).parent().removeClass('done');
+  } else {
+      $(this).parent().addClass('done');
+  }
+    //change the class of the object and update the information stored in the array
+    //or think of better way to do this
+    //localStorage.setItem('taskListData', JSON.stringify(taskList));
+  };*/
