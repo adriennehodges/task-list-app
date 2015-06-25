@@ -1,0 +1,93 @@
+h1 {
+  font-family: 'Nunito', sans-serif;
+  color: #79D1BD;
+  margin: 20px 0;
+}
+
+body {
+  background-color: #F7F7F7;
+}
+
+.content {
+  width: 500px;
+  text-align: center;
+  margin: 50px auto;
+}
+
+input {
+  height: 28px;
+  width: 250px;
+  font-size: 16px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 300;
+  margin-top: 10px;
+  padding-left: 10px;
+}
+
+#addTaskButton {
+  margin-left: 10px;
+  background-color: #9179D1;
+  border-radius: 5px;
+  border: 2px solid #816FB0;
+  color: white;
+  cursor: pointer;  
+  height: 36px;
+  font-size: 24px;
+  line-height: 1px;
+  padding-right: 8px;
+  padding-left: 8px;
+  padding-bottom: 8px;
+  cursor: pointer;
+}
+
+ul {
+    margin: 40px auto 0;
+    padding: 0;
+    width: 545px;
+}
+
+ul li {
+    list-style-type: none;
+    font-size: 24px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    color: #919191;
+    margin-bottom: 10px;
+    padding: 10px;
+    text-align: left;
+}
+
+.complete {
+  float: right;
+  margin-left: 20px;
+  background-color: #79D1BD;
+  border-radius: 5px;
+  border: 2px solid #7FC7B7;
+  color: white;
+  height: 36px;
+  font-size: 18px;
+  padding-right: 9px;
+  padding-left: 9px;
+  cursor: pointer;
+}
+
+.delete {
+  float: right;
+  margin-left: 20px;
+  background-color: #FA93AA;
+  border-radius: 5px;
+  border: 2px solid #DE8E9F;
+  color: white;
+  height: 36px;
+  font-size: 24px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 300;
+  line-height: 1px;
+  cursor: pointer;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.done {
+  text-decoration: line-through;
+}
