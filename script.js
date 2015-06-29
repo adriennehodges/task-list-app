@@ -81,12 +81,12 @@ jQuery(document).ready(function ($) {
         taskStore = JSON.parse(localStorage.getItem('taskList'));
     
     $('#' + id).addClass('done').find('.complete').addClass('disabled');//.attr('contenteditable', 'false');
-    taskStore[status] = 1;
+    taskStore[id].status = 1;
     console.log('made it here');
     //taskInfo.attr('status', 1);
     //taskInfo.status === 1;
     //$('#' + id).prop('status', '1');
-    //localStorage.setItem('taskList', JSON.stringify(taskStore));
+    localStorage.setItem('taskList', JSON.stringify(taskStore));
   };
 
   TaskList.prototype.updateTasks = function () {
