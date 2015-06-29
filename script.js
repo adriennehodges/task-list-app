@@ -41,7 +41,7 @@ jQuery(document).ready(function ($) {
     $('ul').on('click', '.complete', function(event) {
       var element = $(event.currentTarget).parent(),
           status = element.attr('status');
-      self.completeTask();
+      self.completeTask(status);
     });
   };
 
@@ -74,14 +74,14 @@ jQuery(document).ready(function ($) {
     localStorage.setItem('taskList', JSON.stringify(taskStore));
   };
 
-  TaskList.prototype.completeTask = function () {
+  TaskList.prototype.completeTask = function (status) {
     var self = this,
         taskStore = JSON.parse(localStorage.getItem('taskList'));
     for (task in taskStore) {
       var taskInfo = taskStore[task];
       if (taskInfo.status === 0) {
-        $(this).addClass('done');
-        taskInfo.status === 1;
+        $('li').addClass('done');
+        //taskInfo.status === 1;
         //taskInfo.status === 1;
         //$(this).attr('status', 1);
       } //else {
