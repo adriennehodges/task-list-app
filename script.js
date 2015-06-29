@@ -44,6 +44,7 @@ jQuery(document).ready(function ($) {
       var element = $(event.currentTarget).parent(),
           id = element.attr('id');
       self.completeTask(id);
+      self.storeCompletedTask(id);
     });
   };
 
@@ -83,7 +84,13 @@ jQuery(document).ready(function ($) {
     $('#' + id).addClass('done').find('.complete').addClass('disabled');
     taskStore[id].status = 1;
 
+    localStorage['doneClass'] = 'done';
     localStorage.setItem('taskList', JSON.stringify(taskStore));
+  };
+
+  TaskList.prototype.storeCompletedTask = function (id) {
+    previousDoneClass = localStorage['doneClass'];
+    if (previousDoneClass) $('#' + id).addClass(previousDoneClass);
   };
 
   TaskList.prototype.updateTasks = function () {
