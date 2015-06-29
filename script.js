@@ -80,12 +80,9 @@ jQuery(document).ready(function ($) {
     var self = this,
         taskStore = JSON.parse(localStorage.getItem('taskList'));
     
-    $('#' + id).addClass('done').find('.complete').addClass('disabled');//.attr('contenteditable', 'false');
+    $('#' + id).addClass('done').find('.complete').addClass('disabled');
     taskStore[id].status = 1;
-    console.log('made it here');
-    //taskInfo.attr('status', 1);
-    //taskInfo.status === 1;
-    //$('#' + id).prop('status', '1');
+
     localStorage.setItem('taskList', JSON.stringify(taskStore));
   };
 
@@ -105,9 +102,11 @@ jQuery(document).ready(function ($) {
         html += "<li contenteditable='true' id='" + task + "'>" + taskInfo.taskName + "<button contenteditable='false' class='delete'>x</button><button contenteditable='false' class='complete'>DONE</button></li>";
       }
 
-    }  
+    }
+
     $('#taskList').html(html);
     $('#addTaskBox').val('');
+    
   };
     
     var task = new TaskList({"debug":false});
