@@ -33,15 +33,17 @@ jQuery(document).ready(function ($) {
     $('#addTaskButton').on('click', function () {
       self.addTask();
     });
+    
     $('ul').on('click', '.delete', function(event) {
       var element = $(event.currentTarget).parent(),
           id = element.attr('id');
       self.deleteTask(id);
     });
+    
     $('ul').on('click', '.complete', function(event) {
       var element = $(event.currentTarget).parent(),
-          status = element.attr('status');
-      self.completeTask(status);
+          id = element.attr('id');
+      self.completeTask(id);
     });
   };
 
@@ -74,21 +76,16 @@ jQuery(document).ready(function ($) {
     localStorage.setItem('taskList', JSON.stringify(taskStore));
   };
 
-  TaskList.prototype.completeTask = function (status) {
+  TaskList.prototype.completeTask = function (id) {
     var self = this,
         taskStore = JSON.parse(localStorage.getItem('taskList'));
-    for (task in taskStore) {
-      var taskInfo = taskStore[task];
-      if (taskInfo.status === 0) {
-        $('li').addClass('done');
-        //taskInfo.status === 1;
-        //taskInfo.status === 1;
-        //$(this).attr('status', 1);
-      } //else {
-        //$('li').toggleClass('done');
-      //}
-    }
-    //projects[1].desc= "new string";
+    
+    $('#' + id).addClass('done').find('.complete').addClass('disabled');//.attr('contenteditable', 'false');
+    taskStore[status] = 1;
+    console.log('made it here');
+    //taskInfo.attr('status', 1);
+    //taskInfo.status === 1;
+    //$('#' + id).prop('status', '1');
     //localStorage.setItem('taskList', JSON.stringify(taskStore));
   };
 
@@ -116,21 +113,6 @@ jQuery(document).ready(function ($) {
     var task = new TaskList({"debug":false});
 
 });
-
-/*
-
-TaskList.prototype.completeTask = function () {
-    if ($(this).parent().hasClass('done')) {
-      $(this).parent().removeClass('done');
-  } else {
-      $(this).parent().addClass('done');
-  }
-    //change the class of the object and update the information stored in the array
-    //or think of better way to do this
-    //localStorage.setItem('taskListData', JSON.stringify(taskList));
-  };
-
-*/
 
 /*
 
