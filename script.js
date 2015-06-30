@@ -44,7 +44,6 @@ jQuery(document).ready(function ($) {
       var element = $(event.currentTarget).parent(),
           id = element.attr('id');
       self.completeTask(id);
-      self.storeCompletedTask(id);
     });
   };
 
@@ -84,13 +83,8 @@ jQuery(document).ready(function ($) {
     $('#' + id).addClass('done').find('.complete').addClass('disabled');
     taskStore[id].status = 1;
 
-    localStorage['doneClass'] = 'done';
     localStorage.setItem('taskList', JSON.stringify(taskStore));
-  };
 
-  TaskList.prototype.storeCompletedTask = function (id) {
-    previousDoneClass = localStorage['doneClass'];
-    if (previousDoneClass) $('#' + id).addClass(previousDoneClass);
   };
 
   TaskList.prototype.updateTasks = function () {
@@ -99,14 +93,17 @@ jQuery(document).ready(function ($) {
         taskStore = JSON.parse(localStorage.getItem('taskList'));
     for (task in taskStore) {
       var taskInfo = taskStore[task],
-          taskStatus = '';
+          taskStatus = '',
+          classHtml = '',
+          buttonHtml = '';
       
       if (taskInfo.status === 1) {
-        taskStatus = 'complete';
+        classHtml = 'class="done"';
+        buttonHtml = 'disabled';
       }
 
       if (taskInfo.taskName !== "") {
-        html += "<li contenteditable='true' id='" + task + "'>" + taskInfo.taskName + "<button contenteditable='false' class='delete'>x</button><button contenteditable='false' class='complete'>DONE</button></li>";
+        html += "<li contenteditable='true' id='" + task + "' " + classHtml + ">" + taskInfo.taskName + "<button contenteditable='false' class='delete'>x</button><button contenteditable='false' class='complete " + buttonHtml + "'>DONE</button></li>";
       }
 
     }
