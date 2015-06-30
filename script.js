@@ -1,11 +1,9 @@
-//this is the object constructor
 function TaskList(options) {
     this.init(options);
 }
 
 jQuery(document).ready(function ($) {
 
-  //this is the init function
   TaskList.prototype.init = function(options) {
     this.settings = {
         'debug': false,
@@ -44,6 +42,12 @@ jQuery(document).ready(function ($) {
       var element = $(event.currentTarget).parent(),
           id = element.attr('id');
       self.completeTask(id);
+    });  
+
+    $('span').on('keyup', function(event) {
+      var element = $(event.currentTarget).parent(),
+          id = element.attr('id');
+      self.editTask(id);  
     });
   };
 
@@ -84,7 +88,20 @@ jQuery(document).ready(function ($) {
     taskStore[id].status = 1;
 
     localStorage.setItem('taskList', JSON.stringify(taskStore));
+  };
 
+  TaskList.prototype.editTask = function (id) {
+    var self = this,
+        //newTaskName = '',
+        taskStore = JSON.parse(localStorage.getItem('taskList'));
+    
+    var newTaskName = $('#' + id).text();
+
+    console.log(newTaskName);
+
+    //taskStore[id].taskName = newTaskName;
+        
+    //localStorage.setItem('taskList', JSON.stringify(taskStore));
   };
 
   TaskList.prototype.updateTasks = function () {
@@ -103,14 +120,13 @@ jQuery(document).ready(function ($) {
       }
 
       if (taskInfo.taskName !== "") {
-        html += "<li contenteditable='true' id='" + task + "' " + classHtml + ">" + taskInfo.taskName + "<button contenteditable='false' class='delete'>x</button><button contenteditable='false' class='complete " + buttonHtml + "'>DONE</button></li>";
+        html += "<li id='" + task + "' " + classHtml + ">" + "<span contenteditable=true>" + taskInfo.taskName + "</span><button contenteditable='false' class='delete'>x</button><button contenteditable='false' class='complete " + buttonHtml + "'>DONE</button></li>";
       }
 
     }
 
     $('#taskList').html(html);
     $('#addTaskBox').val('');
-    
   };
     
     var task = new TaskList({"debug":false});
