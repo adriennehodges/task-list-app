@@ -47,7 +47,7 @@ jQuery(document).ready(function ($) {
     $('span').on('keyup', function(event) {
       var element = $(event.currentTarget).parent(),
           id = element.attr('id');
-      self.editTask(id);  
+      self.editTask(id); 
     });
   };
 
@@ -92,16 +92,12 @@ jQuery(document).ready(function ($) {
 
   TaskList.prototype.editTask = function (id) {
     var self = this,
-        //newTaskName = '',
         taskStore = JSON.parse(localStorage.getItem('taskList'));
-    
-    var newTaskName = $('#' + id).text();
+        newTaskName = $('#' + id + ' span').text();
 
-    console.log(newTaskName);
-
-    //taskStore[id].taskName = newTaskName;
+    taskStore[id].taskName = newTaskName;
         
-    //localStorage.setItem('taskList', JSON.stringify(taskStore));
+    localStorage.setItem('taskList', JSON.stringify(taskStore));
   };
 
   TaskList.prototype.updateTasks = function () {
@@ -127,6 +123,8 @@ jQuery(document).ready(function ($) {
 
     $('#taskList').html(html);
     $('#addTaskBox').val('');
+
+    this.setObservers();
   };
     
     var task = new TaskList({"debug":false});
@@ -150,4 +148,3 @@ TaskList.prototype.delegateDelete = function(event) {
   something like $('#' + id).find('.delete').on('click', function ...
 
 */
-

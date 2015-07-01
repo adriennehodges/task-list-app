@@ -91,6 +91,7 @@ ul li {
 .done {
   text-decoration: line-through;
   color: #d3d3d3;
+  cursor: auto;
 }
 
 .disabled {
@@ -104,4 +105,5 @@ ul li {
   font-size: 18px;
   padding-right: 9px;
   padding-left: 9px;
+  cursor: auto;
 }
